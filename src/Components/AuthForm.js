@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
@@ -8,21 +7,23 @@ const AuthForm = () => {
   const [feedback, setFeedback] = useState({ message: '', type: '' });
 
   const switchAuthModeHandler = () => {
-    setIsLogin((prevState) => !prevState);
-    // Clear feedback when switching auth mode
+    setIsLogin(prevState => !prevState);
     setFeedback({ message: '', type: '' });
+  };
+
+  const handleFeedback = (message, type = 'error') => {
+    setFeedback({ message, type });
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
-
     const email = event.target.email.value;
     const password = event.target.password.value;
 
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCJPMq08vsmSHC0N9m8Knd-IlEsJP-X7KQ', {
+      const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:${isLogin ? 'signInWithPassword' : 'signUp'}?key=AIzaSyCJPMq08vsmSHC0N9m8Knd-IlEsJP-X7KQ`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,23 +31,20 @@ const AuthForm = () => {
         body: JSON.stringify({
           email,
           password,
-          returnSecureToken : true,
+          returnSecureToken: true,
         }),
-        
       });
 
       const responseData = await response.json();
 
       if (response.ok) {
-        // Registration successful
-        setFeedback({ message: 'Registration successful', type: 'success' });
+        handleFeedback(`${isLogin ? 'Login' : 'Registration'} successful`, 'success');
       } else {
-        // Registration failed
-        setFeedback({ message: responseData.message || 'Registration failed', type: 'error' });
+        handleFeedback(responseData.error.message || 'Authentication failed');
       }
     } catch (error) {
-      console.error('An error occurred during registration', error);
-      setFeedback({ message: 'An error occurred. Please try again.', type: 'error' });
+      console.error('An error occurred during authentication', error);
+      handleFeedback('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +78,7 @@ const AuthForm = () => {
         </div>
         <div className={classes.actions}>
           <button type='button' className={classes.toggle} onClick={switchAuthModeHandler}>
-            {isLogin ? 'Create new account' : 'Login with existing account'}
+            {isLogin ? 'Create new account' : 'Login with an existing account'}
           </button>
         </div>
       </form>

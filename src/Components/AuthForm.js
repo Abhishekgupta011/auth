@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import Cookies from 'js-cookie';
+import React, { useContext, useState } from 'react';
+
 import classes from './AuthForm.module.css';
+import AuthenticationContext from './AuthContext/AuthenticationContext';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [feedback, setFeedback] = useState({ message: '', type: '' });
-
+  
+  const AuthCtx = useContext(AuthenticationContext)
   const switchAuthModeHandler = () => {
     setIsLogin(prevState => !prevState);
     setFeedback({ message: '', type: '' });
@@ -40,6 +42,7 @@ const AuthForm = () => {
 
       if (response.ok) {
         console.log('idToken:', responseData.idToken);
+        AuthCtx.login(responseData.idToken);
         handleFeedback(`${isLogin ? 'Login' : 'Registration'} successful`, 'success');
       } else {
         handleFeedback(responseData.error.message || 'Authentication failed');

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
@@ -38,6 +39,7 @@ const AuthForm = () => {
       const responseData = await response.json();
 
       if (response.ok) {
+        console.log('idToken:', responseData.idToken);
         handleFeedback(`${isLogin ? 'Login' : 'Registration'} successful`, 'success');
       } else {
         handleFeedback(responseData.error.message || 'Authentication failed');

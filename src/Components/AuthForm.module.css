@@ -43,12 +43,12 @@
     align-items: center;
   }
   
-  .actions button {
+  .actions .account {
     cursor: pointer;
     font: inherit;
     color: white;
-    background-color: #9f5ccc;
-    border: 1px solid #9f5ccc;
+    background-color: #9c50cf;
+    border: 1px solid #7c47a0;
     border-radius: 4px;
     padding: 0.5rem 2.5rem;
   }
@@ -69,4 +69,14 @@
   .actions .toggle:hover {
     background-color: transparent;
     color: #ae82cc;
+  }
+
+  .success {
+    background-color: #d5cabd;
+    border-radius: 10px;
+  }
+
+  .error {
+    background-color: #b36f22;
+    border-radius: 10px;
   }

@@ -59,7 +59,7 @@ const AuthForm = () => {
     <section className={classes.auth}>
       <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
       {feedback.message && (
-        <p className={`${classes.feedback} ${feedback.type === 'error' ? classes.error : classes.success}`}>
+        <p className={`${feedback.type === 'error' ? classes.error : classes.success}`}>
           {feedback.message}
         </p>
       )}
@@ -76,7 +76,7 @@ const AuthForm = () => {
           {isLoading ? (
             <p>Loading...</p>
           ) : (
-            <button type='submit' className={classes.toggle}>
+            <button type='submit' className={classes.account}>
               {isLogin ? 'Login' : 'Sign Up'}
             </button>
           )}

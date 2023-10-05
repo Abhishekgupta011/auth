@@ -10,7 +10,7 @@ const MainNavigation = () => {
   const handleLogout = () => {
     authContext.logout();
     // Redirect to the homepage after logout
-    navigate('/');
+    navigate('/auth');
   };
 
   return (

@@ -20,10 +20,10 @@ const MainNavigation = () => {
       </Link>
       <nav>
         <ul>
-          <li>
+          {!authContext.isLoggenIn && <li>
             <Link to='/auth'>Login</Link>
-          </li>
-          {authContext.token ? (
+          </li> }
+          {authContext.token && (
             <>
               <li>
                 <Link to='/profile'>Profile</Link>
@@ -32,7 +32,7 @@ const MainNavigation = () => {
                 <button onClick={handleLogout}>Logout</button>
               </li>
             </>
-          ) : null}
+          )}
         </ul>
       </nav>
     </header>

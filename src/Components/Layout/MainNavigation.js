@@ -5,7 +5,7 @@ import classes from './MainNavigation.module.css';
 
 const MainNavigation = () => {
   const authContext = useContext(AuthenticationContext);
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const navigate = useNavigate(); 
 
   const handleLogout = () => {
     authContext.logout();

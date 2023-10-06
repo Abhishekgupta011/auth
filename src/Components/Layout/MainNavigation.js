@@ -20,7 +20,7 @@ const MainNavigation = () => {
       </Link>
       <nav>
         <ul>
-          {!authContext.isLoggenIn && <li>
+          {!authContext.isLoggedIn && <li>
             <Link to='/auth'>Login</Link>
           </li> }
           {authContext.token && (

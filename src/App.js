@@ -13,16 +13,14 @@ function App() {
     <Layout>
       <Routes>
         <Route path='/' element={<HomePage />} />
-        
-        {/* Use navigate prop for conditional redirection */}
         <Route
           path='/auth'
-          element={authctx.isLoggenIn ? <Navigate to='/profile' /> : <AuthPage />}
+          element={authctx.isLoggedIn ? <Navigate to='/profile' /> : <AuthPage />}
         />
 
         <Route
           path='/profile'
-          element={authctx.isLoggenIn ? <UserProfile /> : <Navigate to='/auth' />}
+          element={authctx.isLoggedIn ? <UserProfile /> : <Navigate to='/auth' />}
         />
 
         <Route path='*' element={<Navigate to='/' />} />

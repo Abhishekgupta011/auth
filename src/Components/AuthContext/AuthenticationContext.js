@@ -1,14 +1,15 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AuthenticationContext = React.createContext({
   token: '',
   isLoggedIn: false,
-  login: (token) => {},
+  login: (token, expiresIn) => {},
   logout: () => {},
+  refreshToken: '',
+  expiresIn: '',
 });
 
 export const AuthenticationProvider = (props) => {
-  // Load token from localStorage on component mount
   const storedToken = localStorage.getItem('authToken');
   const [token, setToken] = useState(storedToken);
   const userLoggedIn = !!token;
@@ -22,22 +23,28 @@ export const AuthenticationProvider = (props) => {
     }
   }, [token]);
 
-
-  const login = (newToken) => {
+  const login = (newToken, expiresIn=300) => {
     setToken(newToken);
-    
+    const expirationTime = expiresIn * 1000; // Convert expiresIn to milliseconds
+    setTimeout(logout, expirationTime); // Set timeout for auto logout
+
+    localStorage.setItem('authToken', newToken);
+    localStorage.setItem('expirationTime', expirationTime.toString());
   };
 
   const logout = () => {
     setToken(null);
-
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('expirationTime');
   };
 
   const contextValue = {
     token: token,
-    isLoggenIn: userLoggedIn,
+    isLoggedIn: userLoggedIn,
     login: login,
     logout: logout,
+    refreshToken: '',
+    expiresIn: '',
   };
 
   return (
